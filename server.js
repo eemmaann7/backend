@@ -7,6 +7,8 @@ const cors = require('cors');
 const logger = require('morgan');
 const authRouter = require('./controllers/auth.routes');
 const verifyToken = require('./middleware/verify-token');
+const eventRouter = require('./controllers/event.routes')
+const attendenceRouter = require('./controllers/attendence.routes')
 
 
 mongoose.connect(process.env.MONGODB_URI);
@@ -15,12 +17,15 @@ mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
+
 app.use(cors());
 app.use(express.json());
 app.use(logger('dev'));
 
 // Routes go here
 app.use('/auth', authRouter);
+app.use('/event', eventRouter)
+app.use('/attendence', attendenceRouter)
 
 
 app.listen(3000, () => {
