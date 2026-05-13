@@ -22,9 +22,11 @@ router.post('/:eventId', verifyToken, async (req, res) => {
 
     res.status(201).json(attendence)
 
-  } catch (error) {
-    res.status(500).json({ error: error.message })
-  }
+  } 
+  catch (err) {
+        console.log(err)
+        res.status(500).json(err)
+    }
 })
 
 
@@ -38,9 +40,10 @@ router.get('/:eventId', async (req, res) => {
 
     res.status(200).json(attendees)
 
-  } catch (error) {
-    res.status(500).json({ error: error.message })
-  }
+  } catch (err) {
+        console.log(err)
+        res.status(500).json(err)
+    }
 })
 
 
@@ -58,9 +61,10 @@ router.delete('/:attendenceId', verifyToken, async (req, res) => {
 
     res.status(200).json({ message: 'Attendance removed' })
 
-  } catch (error) {
-    res.status(500).json({ error: error.message })
-  }
+  } catch (err) {
+        console.log(err)
+        res.status(500).json(err)
+    }
 })
 
 
