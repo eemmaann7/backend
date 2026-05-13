@@ -30,11 +30,11 @@ const eventSchema = new mongoose.Schema(
     attendees: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Attendance",
+        ref: "Attendence",
       },
     ],
   },
   { timestamps: true }
-)
+);
 
-export default mongoose.model("Event", eventSchema)
+module.exports = mongoose.model('Event', eventSchema);
