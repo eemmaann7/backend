@@ -75,4 +75,37 @@ router.get('/:eventId', async (req, res) => {
     }
 })
 
+
+// PUT  update event
+router.put('/:eventId', verifyToken, async (req, res) => {
+  try {
+
+    const updatedEvent = await Event.findByIdAndUpdate(
+      req.params.eventId,
+      req.body,
+      { new: true }
+    )
+    res.status(200).json(updatedEvent)
+  } 
+    catch (err) {
+        console.log(err)
+        res.status(500).json(err)
+    }
+})
+
+// DELETE 
+router.delete('/:eventId', verifyToken, async (req, res) => {
+  try {
+    await Event.findByIdAndDelete(req.params.eventId)
+
+    res.status(200).json({ message: 'Event deleted' })
+
+  } 
+   catch (err) {
+        console.log(err)
+        res.status(500).json(err)
+    }
+})
+
+
 module.exports = router

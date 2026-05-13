@@ -4,4 +4,64 @@ const Attendence = require('../models/Attendence')
 const verifyToken = require('../middleware/verify-token')
 
 
+
+
+// POST 
+router.post('/:eventId', verifyToken, async (req, res) => {
+  try {
+
+    const attendence = await Attendence.create({
+      userId: req.user._id,
+      eventId: req.params.eventId,
+      status: req.body.status
+    })
+
+    await Event.findByIdAndUpdate(req.params.eventId, {
+      $push: { attendees: attendence._id }
+    })
+
+    res.status(201).json(attendence)
+
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+
+// GET all attendance for one event
+router.get('/:eventId', async (req, res) => {
+  try {
+
+    const attendees = await Attendence.find({
+      eventId: req.params.eventId
+    }).populate('userId', 'name email')
+
+    res.status(200).json(attendees)
+
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+
+// DELETE 
+router.delete('/:attendenceId', verifyToken, async (req, res) => {
+  try {
+
+    const attendence = await Attendence.findByIdAndDelete(
+      req.params.attendenceId
+    )
+
+    await Event.findByIdAndUpdate(attendence.eventId, {
+      $pull: { attendees: attendence._id }
+    })
+
+    res.status(200).json({ message: 'Attendance removed' })
+
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+
 module.exports = router
