@@ -15,7 +15,7 @@ const attendenceSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["going", "intested"],
+      enum: ["going", "intersted"],
       default: "going",
     },
   },

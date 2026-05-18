@@ -4,7 +4,7 @@ const Attendence = require('../models/Attendence')
 const verifyToken = require('../middleware/verify-token')
 
 // POST create event
-router.post('/', verifyToken, async (req, res) => {
+router.post('/create', verifyToken, async (req, res) => {
     try {
         const event = await Event.create({
             title: req.body.title,
@@ -52,12 +52,12 @@ router.get('/:eventId', async (req, res) => {
   try {
 
     const event = await Event.findById(req.params.eventId)
-      .populate('createdBy', 'name email')
+      .populate('createdBy', 'username') 
       .populate({
         path: 'attendees',
         populate: {
           path: 'userId',
-          select: 'name email'
+          select: 'username'
         }
       })
 

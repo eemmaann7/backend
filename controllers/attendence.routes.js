@@ -36,7 +36,7 @@ router.get('/:eventId', async (req, res) => {
 
     const attendees = await Attendence.find({
       eventId: req.params.eventId
-    }).populate('userId', 'name email')
+    }).populate('userId', 'username')
 
     res.status(200).json(attendees)
 
